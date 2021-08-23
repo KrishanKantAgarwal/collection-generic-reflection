@@ -10,6 +10,7 @@ public class Generic_One {
 		store.setItem(100.00);
 		Double item = store.getItem();
 		System.out.println(item);
+		
 	}
 
 }
