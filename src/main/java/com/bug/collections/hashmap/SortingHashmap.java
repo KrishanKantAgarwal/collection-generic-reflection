@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class SortingHashmap {
@@ -40,6 +42,9 @@ public class SortingHashmap {
 		Map<Integer, String> sortedMapOfStream = sortByValueUsingStream(map);
 		sortedMapOfStream.entrySet().stream().forEach(System.out::println);
 		
+		System.out.println("******************USING GENERICS************");
+		Map<Integer, String> sortedMapOfGenerics = SortByValuesUsingGenerics(map);
+		sortedMapOfGenerics.entrySet().stream().forEach(System.out::println);
 	}
 
 	private static Map<Integer, String> sortByValueUsingComparator(Map<Integer, String> map) {
@@ -86,6 +91,25 @@ public class SortingHashmap {
 				
 		return sortedMap;
 	}
+	
+	private static <K,V extends Comparable<? super V>> Map<K,V> SortByValuesUsingGenerics(Map<K,V> map) {
+	    SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
+	        new Comparator<Map.Entry<K,V>>() {
+	            @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
+	                int res = e1.getValue().compareTo(e2.getValue());
+	                return res != 0 ? res : 1;
+	            }
+	        }
+	    );
+	    
+	    sortedEntries.addAll(map.entrySet());
+	    Map<K,V> sortedMap = new HashMap<>();
+	    for (Map.Entry<K, V> entry : sortedEntries) {
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+	    
+	    return sortedMap;
+	}
 }
 
 
@@ -130,4 +154,17 @@ public class SortingHashmap {
 1=Pune
 29=america
 4=chennai
+******************USING GENERICS************
+1=Pune
+98=Kabul
+2=Patna
+3=Bangalore
+4=chennai
+5=Jaipur
+7=Goa
+8=Gujarat
+9=Chandigarh
+10=Chattisgarh
+28=Afganisthan
+29=america
 **/
